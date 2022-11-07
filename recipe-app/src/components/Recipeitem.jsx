@@ -6,7 +6,7 @@ import { useState } from "react";
 const Recipeitem = ({fetchAllRecipes, recipe}) => {
 
     const [edit, setEdit] = useState(false)
-    const  [title, setTtitle] = useState(recipe.title)
+    const  [title, setTitle] = useState(recipe.title)
 
 
     const handleDelete = (recipe) => {
@@ -37,7 +37,7 @@ const Recipeitem = ({fetchAllRecipes, recipe}) => {
         })
         .then(response => response.json())
         .then(data => {
-            toast("La recette a été modifiée");
+            toast.sucess("La recette a été modifiée");
             fetchAllRecipes();
         })
     }
@@ -51,7 +51,7 @@ const Recipeitem = ({fetchAllRecipes, recipe}) => {
     {
         edit ? (
         <form onSubmit={() => handleUpdate(recipe, title)}>
-            <input type="text" defaultValue={title} onChange={(e) => setTtitle(e.target.value)}/>
+            <input type="text" defaultValue={title} onChange={(e) => setTitle(e.target.value)}/>
             <input type="submit" value="Valider"/>
 
         </form> 
