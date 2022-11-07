@@ -47,7 +47,7 @@ app.post('/recipes', (req, res) => {
     // créer une recette
     const recipe = req.body;
     const category = recipe.category === undefined ? "" : recipe.category;
-    const sql = `INSERT INTO recipe (title, category) VALUES ('${recipe.title}', '${category}')`;
+    const sql = `INSERT INTO recipes (title, category) VALUES ('${recipe.title}', '${category}')`;
 
     con.query(sql, async (err, result) => {
         if (err) throw err;
@@ -61,7 +61,7 @@ app.put('/recipes/:id', (req, res) => {
     const id = req.params.id;
     const recipe = req.body;
     
-    const sql = "UPDATE recipe SET title = ?, category = ? WHERE id = ?";
+    const sql = "UPDATE recipes SET title = ?, category = ? WHERE id = ?";
     con.query(sql, [recipe.title, recipe.category, id] , async (err, result) => {
         if (err) throw err;
         

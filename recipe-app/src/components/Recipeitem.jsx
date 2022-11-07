@@ -5,7 +5,8 @@ import { useState } from "react";
 
 const Recipeitem = ({fetchAllRecipes, recipe}) => {
 
-    const [isEdit, setIsEdit] = useState(false);
+    const [edit, setEdit] = useState(false)
+    const  [title, setTtitle] = useState(recipe.title)
 
 
     const handleDelete = (recipe) => {
@@ -26,25 +27,30 @@ const Recipeitem = ({fetchAllRecipes, recipe}) => {
         });
     }}
 
-
-   
-
-    const handleUpdate = (recipe) => {
-        fetch(`${process.env.REACT_APP_URL_API}/recipes/${recipe.id}`,{
+    const handleUpdate = (recipe, title) => {
+        fetch(`${process.env.REACT_APP_URL_API}/recipes/${recipe.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(recipe)
-        })}
+            body: JSON.stringify({title : title})
+        })
+        .then(response => response.json())
+        .then(data => {
+            toast("La recette a été modifiée");
+            fetchAllRecipes();
+        })
+    }
+
+
 
 
     return ( 
     <li key={recipe.id} >
     {/* {recipe.title} */}
     {
-        isEdit ? (
-            <form onSubmit={() => handleUpdate(recipe, title)}>
+        edit ? (
+        <form onSubmit={() => handleUpdate(recipe, title)}>
             <input type="text" defaultValue={title} onChange={(e) => setTtitle(e.target.value)}/>
             <input type="submit" value="Valider"/>
 
@@ -55,7 +61,8 @@ const Recipeitem = ({fetchAllRecipes, recipe}) => {
     }
 
     <button onClick={() => handleDelete(recipe)}>delete</button>
-    <button onClick={() => setIsEdit(true)}>Update</button></li>
+    <button onClick={() => setEdit(true)}>Update</button>
+    </li>
      );
 }
  
